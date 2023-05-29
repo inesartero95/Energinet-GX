@@ -1,0 +1,24 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "shared__calendar_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_custom_query_to_return_none",
+      "kwargs": {
+        "template_dict": {
+          "user_query": "SELECT TOP 1 'ERROR: empty char column' as status FROM shared.calendar c WHERE month_char IS NULL OR day_char IS NULL OR quarter_char IS NULL OR iso_week_of_year_char IS NULL OR day_of_week_short is NULL OR day_of_week IS NULL OR year_week is null"
+        }
+      },
+      "meta": {
+        "notes": {
+          "content": "This expectations check custom query returns no rows",
+          "format": "markdown"
+        }
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.16.10"
+  }
+}

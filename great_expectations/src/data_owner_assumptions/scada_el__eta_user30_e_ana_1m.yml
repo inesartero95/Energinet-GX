@@ -1,0 +1,14 @@
+--- 
+name: eta_user30_e_ana_1m
+schema: scada_el
+Expectations:
+    expected_query_to_pass:
+        - user_query:
+            "SELECT TOP 1 'ERROR: missing TABLE_INDEX' as status /* partially normalized, using key table */
+            FROM scada_el.eta_user30_e_ana_1m h
+            WHERE h.HIST_TIMESTAMP >= convert(datetime2(7), DATEADD(DAY, -30, getutcdate()))
+            and h.[year] = CONVERT(VARCHAR(4), YEAR(getutcdate()))
+            AND NOT EXISTS (SELECT NULL 
+                            FROM scada_el.eta_user30_e_ana_1m_key k
+                            WHERE k.TABLE_INDEX = h.TABLE_INDEX
+                            AND k.TABLE_INDEX = 26949 /* TO BE REMOVED! provoking error */ )"

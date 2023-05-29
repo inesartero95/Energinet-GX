@@ -1,0 +1,5 @@
+name: declaration_production
+schema: environmental_data
+Expectations:
+    expected_query_to_pass:
+        - user_query: "SELECT TOP 100 x.* FROM (SELECT d.*, count(*) over (partition by d.HourUTC, d.PriceArea, d.DeliveryType, d.FuelAllocationMethod, d.ReportGrpCode, d.VersionId) as cnt FROM environmental_data.declaration_production d WHERE d.HourUTC >= convert(datetime2(7), '2023-01-01', 121)) x WHERE x.cnt>1 ORDER BY x.HourUTC DESC, x.PriceArea, x.DeliveryType, x.FuelAllocationMethod, x.ReportGrpCode, x.VersionId"

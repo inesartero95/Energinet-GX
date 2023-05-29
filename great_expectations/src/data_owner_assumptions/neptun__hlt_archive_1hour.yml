@@ -1,0 +1,27 @@
+# For Data owners
+---
+name: hlnt_archive_1hour
+schema: neptun
+Expectations:
+    expected_columns_exists: 
+        - Inserted, ID, Art, Zeitpunkt, Infopunkt, Typ, Raster, Wert, Kennung, Extremwertzeit, GOOD
+    # expected_columns_not_null: 
+    #     - Inserted
+    #     - ID
+    #     - Art
+    #     - Zeitpunkt
+    #     - Infopunkt
+    #     # - Typ
+    #     # - Raster
+    #     # - Wert
+    #     # - Kennung
+    #     # - Extremwertzeit
+    #     # - Good
+    # expected_columns_with_extreme_values:
+    #     - Typ:
+    #         min_value: 0
+    #         max_value: 10
+    # expected_columns_check_outliers:
+    #     - Wert
+    expected_columns_to_have_no_duplicates:
+        - Zeitpunkt, Infopunkt

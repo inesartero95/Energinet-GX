@@ -1,0 +1,18 @@
+--- 
+name: eds_fcr
+schema: svk
+Expectations:
+    expected_query_to_pass:
+        - user_query:
+            "SELECT TOP 1 'ERROR: Unexpected price area' AS status
+            FROM svk.eds_fcr e
+            WHERE len(e.PriceArea) <> 3
+            OR e.PriceArea not in ('DK2', 'SE1', 'SE2', 'SE3', 'SE4')
+            UNION ALL
+            SELECT TOP 1 'ERROR: Unexpected product name' as status
+            FROM svk.eds_fcr e
+            WHERE e.ProductName not like 'FCR-%'
+            UNION ALL
+            SELECT TOP 1 'ERROR: Unexpected auction type' as status
+            FROM svk.eds_fcr e
+            WHERE e.AuctionType not in ('Total', 'D-2', 'D-1')"

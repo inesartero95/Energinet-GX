@@ -1,0 +1,25 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "environmental_data_plant_declaration_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_queried_columnlist_to_have_no_duplicates",
+      "kwargs": {
+        "query": "\n            SELECT PriceArea, ReportGrpCode, COUNT(*) AS [_count]\n            FROM environmental_data.plant_declaration\n            GROUP BY PriceArea, ReportGrpCode\n            ",
+        "template_dict": {
+          "column_list": "PriceArea, ReportGrpCode"
+        }
+      },
+      "meta": {
+        "notes": {
+          "content": "This expectations should check ever row to be unique within the given columns",
+          "format": "markdown"
+        }
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.16.10"
+  }
+}

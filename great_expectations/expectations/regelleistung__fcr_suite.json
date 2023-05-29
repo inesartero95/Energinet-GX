@@ -1,0 +1,106 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "regelleistung__fcr_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_columns_to_match_set",
+      "kwargs": {
+        "column_set": [
+          "DATE_FROM",
+          "PRODUCTNAME",
+          "var",
+          "val",
+          "CROSSBORDER_SETTLEMENTCAPACITY_PRICE_[EUR/MW]"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "notes": {
+          "content": "Some clever comment about this expectation. **Markdown** `Supported`",
+          "format": "markdown"
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "DATE_FROM",
+        "mostly": 1.0
+      },
+      "meta": {
+        "notes": {
+          "content": "Some clever comment about this expectation. **Markdown** `Supported`",
+          "format": "markdown"
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "PRODUCTNAME",
+        "mostly": 1.0
+      },
+      "meta": {
+        "notes": {
+          "content": "Some clever comment about this expectation. **Markdown** `Supported`",
+          "format": "markdown"
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "val",
+        "max_value": 10000,
+        "min_value": -10000
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_queried_date_column_row_count_to_be",
+      "kwargs": {
+        "column": "DATE_FROM",
+        "query": "\n            SELECT dateadd(day, datediff(day, 0, DATE_FROM), 0) as dd, count(*)\n            FROM regelleistung.fcr\n            GROUP BY dateadd(day, datediff(day, 0, DATE_FROM), 0)\n            ORDER BY 1 \n            ",
+        "value": 162
+      },
+      "meta": {
+        "notes": {
+          "content": "This expectations check every unique date has n number of observations",
+          "format": "markdown"
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_queried_date_column_to_have_no_days_missing",
+      "kwargs": {
+        "column": "DATE_FROM",
+        "query": "\n            SELECT y.TimeStamp, DATEDIFF(DAY,y.[LagTime],y.[TimeStamp]) AS [Diff]\n            FROM(\n            SELECT x.[TimeStamp],  LAG(x.[TimeStamp],1, x.[TimeStamp]) OVER(ORDER BY x.[TimeStamp]) AS [LagTime]\n            FROM (\n            SELECT DISTINCT dateadd(day, datediff(day, 0, DATE_FROM), 0) AS [TimeStamp] FROM regelleistung.fcr\n            ) x ) y\n            ORDER BY TimeStamp DESC\n            ",
+        "value": 1
+      },
+      "meta": {
+        "notes": {
+          "content": "This expectations check every unique date has n number of observations",
+          "format": "markdown"
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_custom_query_to_return_none",
+      "kwargs": {
+        "template_dict": {
+          "user_query": "SELECT 'ERROR: unexpected country count' AS [Error message] FROM (\tSELECT TOP 1 DATE_FROM, count(distinct substring([var], 1, PATINDEX('%[_]%', [var])-1) ) as countries FROM [regelleistung].[fcr] GROUP BY DATE_FROM ORDER BY 1 ) x WHERE x.countries <> 8"
+        }
+      },
+      "meta": {
+        "notes": {
+          "content": "This expectations check custom query returns no rows",
+          "format": "markdown"
+        }
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.16.10"
+  }
+}

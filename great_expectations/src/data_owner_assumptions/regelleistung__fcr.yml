@@ -1,0 +1,34 @@
+# For regelleistung
+--- 
+name: fcr
+schema: regelleistung
+Expectations:
+    expected_columns_exists: 
+        - DATE_FROM, PRODUCTNAME, var, val, CROSSBORDER_SETTLEMENTCAPACITY_PRICE_[EUR/MW]
+
+    expected_columns_not_null: 
+        - DATE_FROM
+        - PRODUCTNAME
+
+    expected_columns_with_extreme_values:
+         - val:
+             min_value: -10000
+             max_value: 10000
+
+    expected_rows_per_date:
+        - DATE_FROM:
+            value: 162
+
+    expected_dates_not_to_have_no_missing_days:
+        - DATE_FROM:
+            value: 1
+            
+    expected_query_to_pass:
+        - user_query:
+            "SELECT 'ERROR: unexpected country count' AS [Error message]
+            FROM (	SELECT TOP 1 DATE_FROM, count(distinct substring([var], 1, PATINDEX('%[_]%', [var])-1) ) as countries
+                    FROM [regelleistung].[fcr]
+                    GROUP BY DATE_FROM
+                    ORDER BY 1
+                  ) x
+            WHERE x.countries <> 8"

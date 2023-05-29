@@ -1,0 +1,15 @@
+--- 
+name: calendar
+schema: shared
+Expectations:
+    expected_query_to_pass:
+        - user_query:
+            "SELECT TOP 1 'ERROR: empty char column' as status
+            FROM shared.calendar c
+            WHERE month_char IS NULL
+            OR day_char IS NULL
+            OR quarter_char IS NULL
+            OR iso_week_of_year_char IS NULL
+            OR day_of_week_short is NULL
+            OR day_of_week IS NULL
+            OR year_week is null"

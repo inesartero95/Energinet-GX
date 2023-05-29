@@ -1,0 +1,32 @@
+# For Data owners
+--- 
+name: wind
+schema: datahub_bi
+Expectations:
+    expected_columns_exists: 
+        - TimestampUTC, MunicipalityCode, ProductionCategory, Onshore, PriceArea, Qnt
+    expected_columns_not_null: 
+        - TimestampUTC
+        - MunicipalityCode
+        - ProductionCategory
+        - Onshore
+    expected_columns_with_extreme_values:
+        - MunicipalityCode:
+            min_value: 0
+            max_value: 9999
+        - Onshore:
+            min_value: 0
+            max_value: 1
+    expected_columns_check_outliers:
+        - Qnt
+    expected_rows_per_date:
+        - TimestampUTC:
+            value: 4080
+    expected_dates_not_to_be_in_future:
+        - TimestampUTC
+    expected_dates_not_to_have_no_missing_days:
+        - TimestampUTC:
+            value: 1
+    expected_query_to_success:
+    # regner med at Onshores værdier enten er 0 eller 1
+          
